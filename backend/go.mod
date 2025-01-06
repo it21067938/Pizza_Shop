@@ -2,12 +2,11 @@ module backend
 
 go 1.23.4
 
-require rsc.io/quote v1.5.2
+require github.com/felixge/httpsnoop v1.0.3 // indirect
 
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
-	github.com/go-sql-driver/mysql v1.8.1 // indirect
-	github.com/gorilla/mux v1.8.1 // indirect
-	golang.org/x/text v0.0.0-20170915032832-14c0d48ead0c // indirect
-	rsc.io/sampler v1.3.0 // indirect
+	github.com/go-sql-driver/mysql v1.8.1
+	github.com/gorilla/handlers v1.5.2
+	github.com/gorilla/mux v1.8.1
 )

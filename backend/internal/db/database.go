@@ -24,12 +24,13 @@ func Connect() {
 
 	log.Println("Connected to MySQL successfully!")
 
-	// Create the users table if not exists
+	// Create the items table if not exists
 	createTableQuery := `
-    CREATE TABLE IF NOT EXISTS users (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        name VARCHAR(100) NOT NULL,
-        email VARCHAR(100) NOT NULL UNIQUE
+    CREATE TABLE IF NOT EXISTS items (
+        ItemID INT AUTO_INCREMENT PRIMARY KEY,
+        Name VARCHAR(100) NOT NULL,
+        Price VARCHAR(100) NOT NULL,
+		Category VARCHAR(100) NOT NULL 
     );`
 
 	if _, err = DB.Exec(createTableQuery); err != nil {

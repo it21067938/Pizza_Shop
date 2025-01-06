@@ -15,9 +15,13 @@ function SlidBar() {
           <img src={assets.order_icon} alt="" />
           <p>List Items</p>
         </NavLink>
-        <NavLink to="/order" className="slidebar-option">
+        <NavLink to="/history" className="slidebar-option">
           <img src={assets.order_icon} alt="" />
-          <p>Orders Items</p>
+          <p>Bill History</p>
+        </NavLink>
+        <NavLink to="/invoice" className="slidebar-option">
+          <img src={assets.order_icon} alt="" />
+          <p>Invoice</p>
         </NavLink>
       </div>
     </div>

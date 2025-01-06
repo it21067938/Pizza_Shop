@@ -6,6 +6,8 @@ import Add from "./pages/add/Add";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import List from "./pages/list/List"
+import Invoice from './pages/invoice/Invoice';
+import BillHistory from './pages/billHistory/BillHistory';
 
 function App() {
 
@@ -21,6 +23,8 @@ function App() {
         <Routes>
           <Route path="/add" element={<Add url={url}/>} />
           <Route path="/list" element={<List url={url}/>} />
+          <Route path="/invoice" element={<Invoice url={url}/>} />
+          <Route path="/history" element={<BillHistory url={url}/>} />
         </Routes>
       </div>
     </div>
