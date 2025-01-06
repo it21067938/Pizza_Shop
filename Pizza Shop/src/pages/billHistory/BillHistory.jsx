@@ -9,9 +9,9 @@ const BillHistory = ({ url }) => {
 
   const fetchAllOrders = async () => {
     try {
-      const response = await axios.get(`${url}/api/bill/history`);
+      const response = await axios.get(`${url}/api/bills/history`);
       setOrders(response.data); // Assuming data is an array of bills
-      console.log(response.data);
+      console.log(response.data); // Debugging the response
     } catch (error) {
       toast.error("Failed to fetch orders");
       console.error(error);
@@ -27,16 +27,16 @@ const BillHistory = ({ url }) => {
       <h3>Order Page</h3>
       <div className="order-list">
         {orders.map((order) => (
-          <div key={order.BillID} className="order-item">
+          <div key={order.billID} className="order-item">
             <img src={assets.parcel_icon} alt="Parcel Icon" />
             <div>
               <p className="order-item-food">
-                {order.CartItems ? (
-                  order.CartItems.map((item, index) => {
-                    const isLast = index === order.CartItems.length - 1;
+                {order.items && order.items.length > 0 ? (
+                  order.items.map((item, index) => {
+                    const isLast = index === order.items.length - 1;
                     return (
                       <span key={index}>
-                        {item.Name} - {item.Price} x {item.Quantity}
+                        Item ID: {item.itemID} - Price: Rs. {item.price} x {item.quantity}
                         {!isLast && ", "}
                       </span>
                     );
@@ -45,9 +45,9 @@ const BillHistory = ({ url }) => {
                   <span>No items in this bill</span>
                 )}
               </p>
-              <p className="order-item-date">Bill ID: {order.BillID}</p>
-              <p className="order-item-date">Date: {order.Date}</p>
-              <p>Total: Rs. {order.TotalAmount}</p>
+              <p className="order-item-date">Bill ID: {order.billID}</p>
+              <p className="order-item-date">Date: {order.date}</p>
+              <p>Total: Rs. {order.totalAmount}</p>
             </div>
           </div>
         ))}

@@ -32,6 +32,16 @@
     font-size: 13px;
   }
 
+  .bill-table-format{
+    display: grid;
+    grid-template-columns: 1fr 0.5fr 1fr 0fr;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 15px;
+    border-bottom: 1px solid #cacaca;
+    font-size: 13px;
+  }
+
   .invoice-table-format.title {
     position: sticky;
     top: 0;

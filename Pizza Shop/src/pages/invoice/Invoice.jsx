@@ -7,7 +7,10 @@ import { FaWindowMinimize, FaPlus } from "react-icons/fa";
 const Invoice = ({ url }) => {
   const [list, setList] = useState([]);
   const [search, setSearch] = useState("");
+  const [cart, setCart] = useState([]);
+  const [subtotal, setSubtotal] = useState(0);
 
+  // Fetch the item list from the API
   const fetchList = async () => {
     try {
       const response = await axios.get(`${url}/api/food/list`);
@@ -19,10 +22,65 @@ const Invoice = ({ url }) => {
   };
 
   useEffect(() => {
+    const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
+    setCart(savedCart);
     fetchList();
   }, []);
 
- 
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    const total = cart.reduce(
+      (sum, item) => sum + item.Price * item.Quantity,
+      0
+    );
+    setSubtotal(total);
+  }, [cart]);
+
+  const addToCart = (item) => {
+    const existing = cart.find((cartItem) => cartItem.ItemID === item.ItemID);
+    if (existing) {
+      setCart(
+        cart.map((cartItem) =>
+          cartItem.ItemID === item.ItemID
+            ? { ...cartItem, Quantity: cartItem.Quantity + 1 }
+            : cartItem
+        )
+      );
+    } else {
+      setCart([...cart, { ...item, Quantity: 1 }]);
+    }
+  };
+
+  const removeFromCart = (itemID) => {
+    const updatedCart = cart.filter((item) => item.ItemID !== itemID);
+    setCart(updatedCart);
+  };
+
+  const handleCheckout = async () => {
+    const tax = subtotal * 0.1;
+    const totalAmount = subtotal + tax;
+
+    const data = {
+      totalAmount,
+      items: cart.map((item) => ({
+        ItemID: item.ItemID,
+        Quantity: item.Quantity,
+        Price: item.Price,
+      })),
+    };
+
+    try {
+      await axios.post(`${url}/api/bills`, data);
+      toast.success("Bill created successfully");
+      setCart([]);
+      setSubtotal(0);
+      localStorage.removeItem("cart");
+    } catch (error) {
+      toast.error("Failed to create bill");
+      console.error(error);
+    }
+  };
 
   return (
     <div className="xx">
@@ -59,26 +117,37 @@ const Invoice = ({ url }) => {
       </div>
 
       <div className="invoice">
-        <p>Bill</p>
-        
+        <p>Invoice</p>
+        <div className="cart">
+          {cart.map((item, index) => (
+            <div key={index} className="bill-table-format">
+              <p>{item.Name}</p>
+              <p>Qty: {item.Quantity}</p>
+              <p>Price: Rs. {item.Price * item.Quantity}</p>
+              <FaWindowMinimize
+                className="icon"
+                onClick={() => removeFromCart(item.ItemID)}
+              />
+            </div>
+          ))}
+        </div>
+
         <div className="cart-total">
           <div className="cart-total-details">
             <p>Subtotal</p>
-            <p>Rs.</p>
+            <p>Rs. {subtotal.toFixed(2)}</p>
           </div>
           <hr />
           <div className="cart-total-details">
             <p>Tax (10%)</p>
-            <p>Rs.</p>
+            <p>Rs. {(subtotal * 0.1).toFixed(2)}</p>
           </div>
           <hr />
           <div className="cart-total-details">
             <b>Total</b>
-            <b>Rs. </b>
+            <b>Rs. {(subtotal + subtotal * 0.1).toFixed(2)}</b>
           </div>
-          <button onClick={() => toast.success("Proceeding to checkout")}>
-            PROCEED TO CHECKOUT
-          </button>
+          <button onClick={handleCheckout}>PROCEED TO CHECKOUT</button>
         </div>
       </div>
     </div>
