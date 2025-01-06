@@ -24,16 +24,39 @@ func Connect() {
 
 	log.Println("Connected to MySQL successfully!")
 
-	// Create the items table if not exists
-	createTableQuery := `
+	createItemTableQuery := `
     CREATE TABLE IF NOT EXISTS items (
         ItemID INT AUTO_INCREMENT PRIMARY KEY,
         Name VARCHAR(100) NOT NULL,
         Price VARCHAR(100) NOT NULL,
 		Category VARCHAR(100) NOT NULL 
-    );`
+    );
+	`
+	if _, err = DB.Exec(createItemTableQuery); err != nil {
+		log.Fatalf("Failed to create table: %v", err)
+	}
 
-	if _, err = DB.Exec(createTableQuery); err != nil {
+	createCartTableQuery := `
+	CREATE TABLE IF NOT EXISTS carts (
+    CartID INT AUTO_INCREMENT PRIMARY KEY,
+    ItemID INT,	
+    Quantity INT,
+    FOREIGN KEY (ItemID) REFERENCES items(ItemID)
+	);`
+
+	if _, err = DB.Exec(createCartTableQuery); err != nil {
+		log.Fatalf("Failed to create table: %v", err)
+	}
+
+	createInvoiceTableQuery := `
+	CREATE TABLE IF NOT EXISTS bills (
+    BillID INT AUTO_INCREMENT PRIMARY KEY,
+    TotalAmount DECIMAL(10, 2),
+	Date DATE
+	);
+	`
+
+	if _, err = DB.Exec(createInvoiceTableQuery); err != nil {
 		log.Fatalf("Failed to create table: %v", err)
 	}
 }

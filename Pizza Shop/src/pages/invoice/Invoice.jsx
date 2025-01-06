@@ -6,7 +6,6 @@ import { FaWindowMinimize, FaPlus } from "react-icons/fa";
 
 const Invoice = ({ url }) => {
   const [list, setList] = useState([]);
-  const [cart, setCart] = useState([]);
   const [search, setSearch] = useState("");
 
   const fetchList = async () => {
@@ -23,22 +22,7 @@ const Invoice = ({ url }) => {
     fetchList();
   }, []);
 
-  const addToCart = (item) => {
-    setCart((prevCart) => [...prevCart, item]);
-  };
-
-  const removeFromCart = (index) => {
-    setCart((prevCart) => prevCart.filter((_, i) => i !== index));
-  };
-
-  const calculateSubtotal = () => {
-    return cart.reduce((sum, item) => sum + parseFloat(item.Price), 0);
-  };
-
-  const TAX_RATE = 0.1; // 10% tax rate
-  const subtotal = calculateSubtotal();
-  const tax = subtotal * TAX_RATE;
-  const total = subtotal + tax;
+ 
 
   return (
     <div className="xx">
@@ -76,31 +60,21 @@ const Invoice = ({ url }) => {
 
       <div className="invoice">
         <p>Bill</p>
-        {cart.map((item, index) => (
-          <div key={index} className="cart-table-format">
-            <FaWindowMinimize
-              className="icon"
-              onClick={() => removeFromCart(index)}
-            />
-            <p>{item.Name}</p>
-            <p>{item.Category}</p>
-            <p>{item.Price}</p>
-          </div>
-        ))}
+        
         <div className="cart-total">
           <div className="cart-total-details">
             <p>Subtotal</p>
-            <p>Rs. {subtotal.toFixed(2)}</p>
+            <p>Rs.</p>
           </div>
           <hr />
           <div className="cart-total-details">
             <p>Tax (10%)</p>
-            <p>Rs. {tax.toFixed(2)}</p>
+            <p>Rs.</p>
           </div>
           <hr />
           <div className="cart-total-details">
             <b>Total</b>
-            <b>Rs. {total.toFixed(2)}</b>
+            <b>Rs. </b>
           </div>
           <button onClick={() => toast.success("Proceeding to checkout")}>
             PROCEED TO CHECKOUT
