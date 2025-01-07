@@ -93,7 +93,16 @@
     color: white;
     width: max(15vm, 200px);
 }
-  
+
+.printBTN{
+  border-radius: 4px;
+  border: none;
+  margin-top: 15px;
+  cursor: pointer;
+  padding: 8px 5px;
+  width: max(5vm, 100px);
+  background-color: rgb(93, 157, 100);
+}
   @media (max-width: 600px) {
     .list-table-format {
       grid-template-columns: 1fr 3fr 1fr;
@@ -104,4 +113,6 @@
       display: none;
     }
   }
+  
+
   

@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import "./Invoice.css";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { printInvoice } from "../../components/printInvoice/PrintInvoice";
 import { FaWindowMinimize, FaPlus } from "react-icons/fa";
+import { MdOutlineLocalPrintshop } from "react-icons/md";
 
 const Invoice = ({ url }) => {
   const [list, setList] = useState([]);
@@ -149,6 +151,10 @@ const Invoice = ({ url }) => {
           </div>
           <button onClick={handleCheckout}>PROCEED TO CHECKOUT</button>
         </div>
+
+        <button className="printBTN"  onClick={() => printInvoice(cart, subtotal)}>
+         <MdOutlineLocalPrintshop/> Print Invoice
+        </button>
       </div>
     </div>
   );

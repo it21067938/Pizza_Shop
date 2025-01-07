@@ -24,7 +24,7 @@ const BillHistory = ({ url }) => {
 
   return (
     <div className="order add">
-      <h3>Order Page</h3>
+      <h3>Bill History</h3>
       <div className="order-list">
         {orders.map((order) => (
           <div key={order.billID} className="order-item">
